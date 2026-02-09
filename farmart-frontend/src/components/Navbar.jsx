@@ -1,12 +1,2 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+<Link to="/">Home</Link>
 
-export default function Navbar() {
-  return (
-    <nav className="navbar">
-      <Link to="/">Home</Link>
-      <Link to="/test">Test</Link>
-      <Link to="/cart">Cart</Link>
-    </nav>
-  )
-}
