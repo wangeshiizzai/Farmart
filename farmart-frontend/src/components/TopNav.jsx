@@ -13,7 +13,7 @@ export default function TopNav() {
           market 
         </Link>
         <Link to="/delivery" className="text-3xl font-bold uppercase hover:text-blue-400 transition">
-          Delivery
+delivery     
         </Link>
         <Link to="/contact" className="text-3xl font-bold uppercase hover:text-blue-400 transition">
           Contact Us
