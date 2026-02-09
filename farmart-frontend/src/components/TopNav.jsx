@@ -10,7 +10,7 @@ export default function TopNav() {
           Home
         </Link>
         <Link to="/market" className="text-3xl font-bold uppercase hover:text-blue-400 transition">
-          Market
+          market 
         </Link>
         <Link to="/delivery" className="text-3xl font-bold uppercase hover:text-blue-400 transition">
           Delivery
