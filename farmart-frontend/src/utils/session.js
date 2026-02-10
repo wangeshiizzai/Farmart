@@ -7,3 +7,9 @@ export function getSessionUser() {
     return null
   }
 }
+
+export function isFarmerUser() {
+  const user = getSessionUser()
+  const type = user?.type || user?.role || ''
+  return String(type).toLowerCase() === 'farmer'
+}
