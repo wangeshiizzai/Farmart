@@ -14,3 +14,6 @@ const animalSlice = createSlice({
     },
   },
 })
+
+export const { setAnimals } = animalSlice.actions
+export default animalSlice.reducer
