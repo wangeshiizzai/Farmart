@@ -13,3 +13,11 @@ export function isFarmerUser() {
   const type = user?.type || user?.role || ''
   return String(type).toLowerCase() === 'farmer'
 }
+
+export function getAuthToken() {
+  try {
+    return sessionStorage.getItem('token')
+  } catch {
+    return null
+  }
+}
