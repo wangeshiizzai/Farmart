@@ -1,16 +1,17 @@
-def test_simulated_payment(client, auth_headers):
-    order = client.post("/orders/checkout", headers=auth_headers).json()
-
-    client.post(
-        f"/orders/{order['id']}/confirm",
-        headers=auth_headers
-    )
-
+def test_create_payment(client, user_token):
     res = client.post(
-        f"/payments/simulate",
-        json={"order_id": order["id"]},
-        headers=auth_headers
+        "/payments",
+        headers={"Authorization": f"Bearer {user_token}"},
+        json={"order_id": 1, "amount": 400, "method": "credit_card"}
     )
+    assert res.status_code == 201
+    data = res.json()
+    assert data["amount"] == 400
 
+def test_list_payments(client, user_token):
+    res = client.get(
+        "/payments",
+        headers={"Authorization": f"Bearer {user_token}"}
+    )
     assert res.status_code == 200
-    assert res.json()["paid"] is True
+    assert isinstance(res.json(), list)

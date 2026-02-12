@@ -1,15 +1,12 @@
-def test_create_animal(client, auth_headers):
+def test_create_animal(client, user_token):
     res = client.post(
         "/animals",
-        json={
-            "name": "Goat",
-            "price": 120.0,
-            "quantity": 5
-        },
-        headers=auth_headers
+        headers={"Authorization": f"Bearer {user_token}"},
+        json={"name": "Cow", "price": 200}
     )
     assert res.status_code == 201
-
+    data = res.json()
+    assert data["name"] == "Cow"
 
 def test_list_animals(client):
     res = client.get("/animals")

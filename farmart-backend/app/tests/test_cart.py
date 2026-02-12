@@ -1,20 +1,17 @@
-def test_add_to_cart(client, auth_headers):
-    animal = client.post(
-        "/animals",
-        json={"name": "Cow", "price": 500.0, "quantity": 3},
-        headers=auth_headers
-    ).json()
-
+def test_add_to_cart(client, user_token):
     res = client.post(
-        "/cart/add",
-        json={"animal_id": animal["id"], "quantity": 1},
-        headers=auth_headers
+        "/cart",
+        headers={"Authorization": f"Bearer {user_token}"},
+        json={"animal_id": 1, "quantity": 2}
     )
+    assert res.status_code == 201
+    data = res.json()
+    assert data["quantity"] == 2
 
+def test_get_cart(client, user_token):
+    res = client.get(
+        "/cart",
+        headers={"Authorization": f"Bearer {user_token}"}
+    )
     assert res.status_code == 200
-
-
-def test_view_cart(client, auth_headers):
-    res = client.get("/cart", headers=auth_headers)
-    assert res.status_code == 200
-    assert "items" in res.json()
+    assert isinstance(res.json(), list)

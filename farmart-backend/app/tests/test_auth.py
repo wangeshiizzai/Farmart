@@ -6,7 +6,6 @@ def test_register(client, user_data):
     assert "id" in data
 
 def test_register_existing_user(client, user_data, create_user):
-    # Attempting to register again should fail
     res = client.post("/auth/register", json=user_data)
     assert res.status_code == 400
 

@@ -4,16 +4,16 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from app.database import Base, get_db
 from app.main import app
-from app.core.security import get_password_hash
-from app.models.user import User
 
-# Use a separate test database
-SQLALCHEMY_DATABASE_URL = "postgresql://postgres:Raphie2oo2@localhost:5433/farmart_test"
+# -----------------------------
+# Configure test database
+# -----------------------------
+SQLALCHEMY_DATABASE_URL = "postgresql://postgres:YOUR_PASSWORD@localhost:5433/farmart_test"
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# Override the get_db dependency
+# Override get_db to use test DB
 def override_get_db():
     db = TestingSessionLocal()
     try:
@@ -23,9 +23,11 @@ def override_get_db():
 
 app.dependency_overrides[get_db] = override_get_db
 
+# -----------------------------
+# Fixtures
+# -----------------------------
 @pytest.fixture(scope="session")
 def test_db():
-    # Create the test database schema
     Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
     yield

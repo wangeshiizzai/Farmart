@@ -1,29 +1,17 @@
-def test_checkout_creates_order(client, auth_headers):
-    animal = client.post(
-        "/animals",
-        json={"name": "Sheep", "price": 200.0, "quantity": 2},
-        headers=auth_headers
-    ).json()
-
-    client.post(
-        "/cart/add",
-        json={"animal_id": animal["id"], "quantity": 1},
-        headers=auth_headers
-    )
-
-    res = client.post("/orders/checkout", headers=auth_headers)
-
-    assert res.status_code == 201
-    assert res.json()["status"] == "PENDING"
-
-
-def test_confirm_order(client, auth_headers):
-    order = client.post("/orders/checkout", headers=auth_headers).json()
-
+def test_create_order(client, user_token):
     res = client.post(
-        f"/orders/{order['id']}/confirm",
-        headers=auth_headers
+        "/orders",
+        headers={"Authorization": f"Bearer {user_token}"},
+        json={"cart_items": [{"animal_id": 1, "quantity": 2}]}
     )
+    assert res.status_code == 201
+    data = res.json()
+    assert "id" in data
 
+def test_list_orders(client, user_token):
+    res = client.get(
+        "/orders",
+        headers={"Authorization": f"Bearer {user_token}"}
+    )
     assert res.status_code == 200
-    assert res.json()["status"] == "CONFIRMED"
+    assert isinstance(res.json(), list)
