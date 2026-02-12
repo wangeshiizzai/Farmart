@@ -1,6 +1,15 @@
 # FARMART API
 
-# Backend
+## Frontend
+Create the React App
+```
+npm create vite@latest farmart-frontend
+cd farmart-frontend
+npm install
+npm run dev
+```
+
+## Backend
 Create and activate virtual environment:
 ```
 cd farmart-backend
